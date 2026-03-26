@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2 class="m-4">Closed Listings</h2>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        {% for listing in listings %}
+        {% if not listing.is_active %}
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-3 justify-content-center d-flex text-bg-light position-relative"
+                    style="height: 200px;">
+                    {% if listing.img_url %}
+                    <img src="{{ listing.img_url}}" class="img-fluid rounded"
+                        alt="Product Image" style="height: 100%; object-fit: contain;">
+                        {% else %}
+                        <img src="https://placehold.jp/f8f9fa/d8d4d4/200x200.png?text=No%20Image%20Available" class="img-fluid rounded"
+                        alt="Product Image" style="height: 100%; object-fit: contain;">
+                        {% endif %}
+                </div>
+                <div class="col-md-9">
+                    {% if listing.category %}
+                    <span class="badge text-bg-dark position-absolute bottom-0 end-0 m-3">
+                        {{ listing.category.name }}
+                    </span>
+
+                    {% endif %}
+                    <div class="card-body d-flex flex-column" style="height: 200px;">
+                        <h4 class="card-title">
+                            <a href="{% url 'listing' listing_id=listing.id %}" class="stretched-link text-decoration-none text-dark">{{ listing.title }}</a>
+                        </h4>
+                        <h3><strong>${{ listing.current_price }}</strong></h3>
+                        <p class="card-text" style="
+    display: -webkit-box; 
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.2rem;">
+                            <small class="text-body-secondary">{{ listing.description }}</small>
+                        </p>
+                        <small class="mb-0 mt-auto"> Listed on: {{ listing.created_at|date:"F j, Y" }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% empty %}
+        <div class="text-center mt-5">
+            <h4>No closed listings yet!</h4>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
