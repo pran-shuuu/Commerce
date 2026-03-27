@@ -10,4 +10,4 @@ local_settings.py
 .DS_Store
 *.log
 /media/
-/staticfiles/
+/staticfiles/pi
